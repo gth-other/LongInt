@@ -1,0 +1,611 @@
+#include <iostream>
+#include <vector>
+#include "LongInt.hpp"
+
+
+std::vector<int> LongInt::_string_convert_to_vector(const std::string& string) {
+    std::vector<int> result;
+    if (string.size() % _base_length == 0) {
+        result.resize(string.size() / _base_length);
+    }
+    else {
+        result.resize(string.size() / _base_length + 1);
+    }
+    for (long long string_position = string.size() - 1, result_position = result.size() - 1; string_position >= 0; string_position = string_position - _base_length, result_position = result_position - 1) {
+        if ((string_position + 1) - _base_length <= 0) {
+            result[result_position] = std::stoi(string.substr(0, (string_position + 1)));
+        }
+        else {
+            result[result_position] = std::stoi(string.substr((string_position + 1) - _base_length, _base_length));
+        }
+    }
+    return result;
+}
+LongInt::LongInt() {
+    _digits.resize(1);
+    _digits[0] = 0;
+    _natural = true;
+}
+LongInt::LongInt(std::string string) {
+    if (string.empty() or (string.size() == 1 and string[0] == '-')) {
+        throw "Fatal error. Type creation is impossible. String does not contain number.";
+    }
+    if (string[0] == '-') {
+        string.erase(string.begin() + 0);
+        _natural = false;
+    }
+    else {
+        _natural = true;
+    }
+    for (long long i = 0; i < string.size(); i = i + 1) {
+        if (string[i] < 48 or string[i] > 57) {
+            throw "Fatal error. Type creation is impossible. String contain unknown characters.";
+        }
+    }
+    while (string.size() != 1 and string[0] == '0') {
+        string.erase(string.begin() + 0);
+    }
+    _digits = LongInt::_string_convert_to_vector(string);
+}
+LongInt::LongInt(signed int number) {
+    if (number < 0) {
+        number = number * -1;
+        _natural = false;
+    }
+    else {
+        _natural = true;
+    }
+    _digits = LongInt::_string_convert_to_vector(std::to_string(number));
+}
+LongInt::LongInt(unsigned int number) {
+    _natural = true;
+    _digits = LongInt::_string_convert_to_vector(std::to_string(number));
+}
+LongInt::LongInt(signed long number) {
+    if (number < 0) {
+        number = number * -1;
+        _natural = false;
+    }
+    else {
+        _natural = true;
+    }
+    _digits = LongInt::_string_convert_to_vector(std::to_string(number));
+}
+LongInt::LongInt(unsigned long number) {
+    _natural = true;
+    _digits = LongInt::_string_convert_to_vector(std::to_string(number));
+}
+LongInt::LongInt(signed long long number) {
+    if (number < 0) {
+        number = number * -1;
+        _natural = false;
+    }
+    else {
+        _natural = true;
+    }
+    _digits = LongInt::_string_convert_to_vector(std::to_string(number));
+}
+LongInt::LongInt(unsigned long long number) {
+    _natural = true;
+    _digits = LongInt::_string_convert_to_vector(std::to_string(number));
+}
+std::string LongInt::to_string(LongInt number) {
+    if (number._digits.size() == 1 and number._digits[0] == 0) {
+        return "0";
+    }
+    std::string result;
+    if (number._natural == false) {
+        result.append("-");
+    }
+    result.reserve(number._digits.size() * (_base_length - 1));
+    std::string tmp;
+    result.append(std::to_string(number._digits[0]));
+    for (long long i = 1; i < number._digits.size(); i = i + 1) {
+        tmp = std::to_string(number._digits[i]);
+        tmp.reserve(_base_length - tmp.size());
+        while (tmp.size() < _base_length) {
+            tmp.insert(tmp.begin() + 0, '0');
+        }
+        result.append(tmp);
+    }
+    return result;
+}
+std::ostream& operator <<(std::ostream& ostream, const LongInt& number) {
+    std::string string = LongInt::to_string(number);
+    for (long long i = 0; i < string.size(); i = i + 1) {
+        ostream.put(string[i]);
+    }
+    return ostream;
+}
+LongInt LongInt::_zeroes_leading_remove(LongInt number) {
+    long long zeroes_leading_border = number._digits.size() - 1;
+    for (long long i = 0; i < number._digits.size() - 1; i = i + 1) {
+        if (number._digits[i] != 0) {
+            zeroes_leading_border = i;
+            break;
+        }
+    }
+    number._digits.erase(number._digits.begin() + 0, number._digits.begin() + zeroes_leading_border);
+    return number;
+}
+LongInt LongInt::_shift_right(LongInt number, long long shift_power) {
+    number._digits.reserve(shift_power);
+    for (long long i = 0; i < shift_power; i = i + 1) {
+        number._digits.insert(number._digits.begin() + 0, 0);
+    }
+    return number;
+}
+LongInt LongInt::_shift_left(LongInt number, long long shift_power) {
+    if (number == 0) {
+        return number;
+    }
+    number._digits.reserve(shift_power);
+    for (long long i = 0; i < shift_power; i = i + 1) {
+        number._digits.push_back(0);
+    }
+    return number;
+}
+LongInt LongInt::abs(LongInt number) {
+    number._natural = true;
+    return number;
+}
+bool LongInt::even(LongInt number) {
+    if (number._digits[number._digits.size() - 1] % 2 == 0) {
+        return true;
+    }
+    return false;
+}
+bool LongInt::odd(LongInt number) {
+    return (LongInt::even(number) == false);
+}
+char LongInt::sign(const LongInt& number) {
+    if (number._natural == true) {
+        return '+';
+    }
+    return '-';
+}
+LongInt LongInt::max(LongInt number_thirst, LongInt number_second) {
+    if (number_thirst > number_second) {
+        return number_thirst;
+    }
+    return number_second;
+}
+LongInt LongInt::min(LongInt number_thirst, LongInt number_second) {
+    if (number_thirst < number_second) {
+        return number_thirst;
+    }
+    return number_second;
+}
+bool operator ==(LongInt number_thirst, LongInt number_second) {
+    if (number_thirst._natural != number_second._natural) {
+        return false;
+    }
+    if (number_thirst._digits.size() != number_second._digits.size()) {
+        return false;
+    }
+    for (long long numbers_position = 0; numbers_position < number_thirst._digits.size(); numbers_position = numbers_position + 1) {
+        if (number_thirst._digits[numbers_position] != number_second._digits[numbers_position]) {
+            return false;
+        }
+    }
+    return true;
+}
+bool operator !=(LongInt number_thirst, LongInt number_second) {
+    return (number_thirst == number_second == false);
+}
+bool operator >(LongInt number_thirst, LongInt number_second) {
+    if (number_thirst == number_second) {
+        return false;
+    }
+    if (number_thirst._natural == true and number_second._natural == false) {
+        return true;
+    }
+    if (number_thirst._natural == false and number_second._natural == true) {
+        return false;
+    }
+    if (number_thirst._natural == false and number_second._natural == false) {
+        number_thirst._natural = true;
+        number_second._natural = true;
+        return (number_thirst > number_second == false);
+    }
+    if (number_thirst._digits.size() > number_second._digits.size()) {
+        return true;
+    }
+    if (number_thirst._digits.size() < number_second._digits.size()) {
+        return false;
+    }
+    for (long long numbers_position = 0; numbers_position < number_thirst._digits.size(); numbers_position = numbers_position + 1) {
+        if (number_thirst._digits[numbers_position] > number_second._digits[numbers_position]) {
+            return true;
+        }
+        if (number_thirst._digits[numbers_position] < number_second._digits[numbers_position]) {
+            return false;
+        }
+    }
+    return false;
+}
+bool operator <(const LongInt& number_thirst, const LongInt& number_second) {
+    if (number_thirst != number_second and (number_thirst > number_second == false)) {
+        return true;
+    }
+    return false;
+}
+bool operator >=(const LongInt& number_thirst, const LongInt& number_second) {
+    if (number_thirst > number_second or number_thirst == number_second) {
+        return true;
+    }
+    return false;
+}
+bool operator <=(const LongInt& number_thirst, const LongInt& number_second) {
+    if (number_thirst < number_second or number_thirst == number_second) {
+        return true;
+    }
+    return false;
+}
+LongInt operator +(LongInt number_thirst, LongInt number_second) {
+    if (number_thirst._natural == true and number_second._natural == false) {
+        number_second._natural = true;
+        return number_thirst - number_second;
+    }
+    if (number_thirst._natural == false and number_second._natural == true) {
+        number_thirst._natural = true;
+        return number_second - number_thirst;
+    }
+    if (number_thirst._natural == false and number_second._natural == false) {
+        number_second._natural = true;
+    }
+    if (number_thirst._digits.size() > number_second._digits.size()) {
+        number_second = LongInt::_shift_right(number_second,number_thirst._digits.size() - number_second._digits.size());
+    }
+    else {
+        number_thirst = LongInt::_shift_right(number_thirst,number_second._digits.size() - number_thirst._digits.size());
+    }
+    int sum;
+    int in_mind = 0;
+    for (long long numbers_position = number_thirst._digits.size() - 1; numbers_position >= 0; numbers_position = numbers_position - 1) {
+        sum = number_thirst._digits[numbers_position] + number_second._digits[numbers_position] + in_mind;
+        in_mind = sum / LongInt::_base;
+        number_thirst._digits[numbers_position] = sum % LongInt::_base;
+    }
+    if (in_mind != 0) {
+        number_thirst._digits.insert(number_thirst._digits.begin() + 0, in_mind);
+    }
+    return number_thirst;
+}
+LongInt LongInt::operator +=(LongInt number) {
+    return *this = *this + std::move(number);
+}
+LongInt LongInt::operator ++() {
+    return *this = *this + 1;
+}
+LongInt LongInt::operator ++(int) {
+    *this = *this + 1;
+    return *this = *this - 1;
+}
+LongInt operator -(LongInt number_thirst, LongInt number_second) {
+    if (number_thirst._natural == true and number_second._natural == false) {
+        number_second._natural = true;
+        return number_thirst + number_second;
+    }
+    if (number_thirst._natural == false and number_second._natural == true) {
+        number_thirst._natural = true;
+        LongInt tmp = number_thirst + number_second;
+        tmp._natural = false;
+        return tmp;
+    }
+    if (number_thirst._natural == false and number_second._natural == false) {
+        number_thirst._natural = true;
+        number_second._natural = true;
+        LongInt tmp;
+        tmp = number_thirst;
+        number_thirst = number_second;
+        number_second = tmp;
+    }
+    if (number_thirst < number_second) {
+        LongInt tmp = number_thirst;
+        number_thirst = number_second;
+        number_second = tmp;
+        number_thirst._natural = false;
+    }
+    number_second = LongInt::_shift_right(number_second, number_thirst._digits.size() - number_second._digits.size());
+    int different;
+    for (long long numbers_position1 = number_thirst._digits.size() - 1; numbers_position1 >= 0; numbers_position1 = numbers_position1 - 1) {
+        different = number_thirst._digits[numbers_position1] - number_second._digits[numbers_position1];
+        if (different >= 0) {
+            number_thirst._digits[numbers_position1] = different;
+        }
+        else {
+            number_thirst._digits[numbers_position1] = different + LongInt::_base;
+            for (long long numbers_position2 = numbers_position1 - 1; true; numbers_position2 = numbers_position2 - 1) {
+                if (number_thirst._digits[numbers_position2] == 0) {
+                    number_thirst._digits[numbers_position2] = LongInt::_base - 1;
+                }
+                else {
+                    number_thirst._digits[numbers_position2] = number_thirst._digits[numbers_position2] - 1;
+                    break;
+                }
+            }
+        }
+    }
+    return LongInt::_zeroes_leading_remove(number_thirst);
+}
+LongInt LongInt::operator -=(LongInt number) {
+    return *this = *this - std::move(number);
+}
+LongInt LongInt::operator --() {
+    return *this = *this - 1;
+}
+LongInt LongInt::operator --(int) {
+    *this = *this - 1;
+    return *this = *this + 1;
+}
+LongInt LongInt::_multiply_karatsuba(LongInt number_thirst, LongInt number_second) {
+    if (std::min(number_thirst._digits.size(), number_second._digits.size()) <= _length_maximum_for_default_multiply) {
+        number_thirst = LongInt::_zeroes_leading_remove(number_thirst);
+        number_second = LongInt::_zeroes_leading_remove(number_second);
+        LongInt result;
+        result._digits.resize(number_thirst._digits.size() + number_second._digits.size());
+        long long composition;
+        for (long long number_thirst_position = number_thirst._digits.size() - 1; number_thirst_position >= 0; number_thirst_position = number_thirst_position - 1) {
+            for (long long number_second_position = number_second._digits.size() - 1; number_second_position >= 0; number_second_position = number_second_position - 1) {
+                composition = (long long)number_thirst._digits[number_thirst_position] * (long long)number_second._digits[number_second_position] + result._digits[number_thirst_position + number_second_position + 1];
+                result._digits[number_thirst_position + number_second_position + 1] = composition % LongInt::_base;
+                result._digits[number_thirst_position + number_second_position + 1 - 1] = result._digits[number_thirst_position + number_second_position + 1 - 1] + (composition / LongInt::_base);
+            }
+        }
+        return LongInt::_zeroes_leading_remove(result);
+    }
+    if (number_thirst._digits.size() % 2 != 0) {
+        number_thirst._digits.insert(number_thirst._digits.begin() + 0, 0);
+    }
+    if (number_second._digits.size() % 2 != 0) {
+        number_second._digits.insert(number_second._digits.begin() + 0, 0);
+    }
+    if (number_thirst._digits.size() > number_second._digits.size()) {
+        number_second = LongInt::_shift_right(number_second,number_thirst._digits.size() - number_second._digits.size());
+    }
+    else {
+        number_thirst = LongInt::_shift_right(number_thirst,number_second._digits.size() - number_thirst._digits.size());
+    }
+    long long numbers_size = number_thirst._digits.size();
+    long long numbers_part_size = numbers_size / 2;
+    LongInt number_thirst_part_left;
+    LongInt number_thirst_part_right;
+    LongInt number_second_part_left;
+    LongInt number_second_part_right;
+    number_thirst_part_left._digits.resize(0);
+    number_thirst_part_right._digits.resize(0);
+    number_second_part_left._digits.resize(0);
+    number_second_part_right._digits.resize(0);
+    number_thirst_part_left._digits.reserve(numbers_part_size);
+    number_thirst_part_right._digits.reserve(numbers_part_size);
+    number_second_part_left._digits.reserve(numbers_part_size);
+    number_second_part_right._digits.reserve(numbers_part_size);
+    for (long long i = 0; i < numbers_part_size; i = i + 1) {
+        number_thirst_part_left._digits.push_back(number_thirst._digits[i]);
+        number_second_part_left._digits.push_back(number_second._digits[i]);
+    }
+    for (long long i = numbers_part_size; i < numbers_size; i = i + 1) {
+        number_thirst_part_right._digits.push_back(number_thirst._digits[i]);
+        number_second_part_right._digits.push_back(number_second._digits[i]);
+    }
+    LongInt product_thirst = LongInt::_multiply_karatsuba(number_thirst_part_left, number_second_part_left);
+    LongInt product_second = LongInt::_multiply_karatsuba(number_thirst_part_right, number_second_part_right);
+    LongInt product_third = LongInt::_multiply_karatsuba(LongInt::_zeroes_leading_remove(number_thirst_part_left) + LongInt::_zeroes_leading_remove(number_thirst_part_right), LongInt::_zeroes_leading_remove(number_second_part_left) + LongInt::_zeroes_leading_remove(number_second_part_right));
+    return LongInt::_shift_left(product_thirst, numbers_size) + LongInt::_shift_left(product_third - product_thirst - product_second, numbers_part_size) + product_second;
+}
+LongInt operator *(const LongInt& number_thirst, const LongInt& number_second) {
+    LongInt result = LongInt::_multiply_karatsuba(number_thirst, number_second);
+    result._natural = (number_thirst._natural == number_second._natural);
+    return result;
+}
+LongInt LongInt::operator *=(const LongInt& number) {
+    return *this = *this * number;
+}
+LongInt operator /(LongInt number_thirst, LongInt number_second) {
+    LongInt result;
+    result._natural = (number_thirst._natural == number_second._natural);
+    LongInt number_thirst_part;
+    number_thirst_part._natural = true;
+    number_thirst._natural = true;
+    number_second._natural = true;
+    if (number_second == 0) {
+        throw "Fatal error. Division whole is impossible. Attempt to divide by zero.";
+    }
+    if (number_thirst < number_second) {
+        return 0;
+    }
+    result._digits.resize(0);
+    number_thirst_part._digits.resize(0);
+    int quotient;
+    int left;
+    int middle;
+    int right;
+    LongInt tmp;
+    for (long long number_thirst_position = 0; number_thirst_position < number_thirst._digits.size(); number_thirst_position = number_thirst_position + 1) {
+        number_thirst_part._digits.push_back(number_thirst._digits[number_thirst_position]);
+        quotient = 0;
+        left = 0;
+        right = LongInt::_base;
+        while (left <= right) {
+            middle = (left + right) / 2;
+            tmp = number_second * middle;
+            if (tmp <= number_thirst_part) {
+                quotient = middle;
+                left = middle + 1;
+            }
+            else {
+                right = middle - 1;
+            }
+        }
+        number_thirst_part = number_thirst_part - (number_second * quotient);
+        if (!result._digits.empty() or quotient != 0) {
+            result._digits.push_back(quotient);
+        }
+        if (number_thirst_part == 0) {
+            number_thirst_part._digits.resize(0);
+        }
+    }
+    return result;
+}
+LongInt LongInt::operator /=(LongInt number) {
+    return *this = *this / std::move(number);
+}
+LongInt operator %(LongInt number_thirst, LongInt number_second) {
+    LongInt number_thirst_part;
+    number_thirst_part._natural = true;
+    number_thirst._natural = true;
+    number_second._natural = true;
+    if (number_second == 0) {
+        throw "Fatal error. Division remainder calculation is impossible. Attempt to divide by zero.";
+    }
+    if (number_thirst < number_second) {
+        return number_thirst;
+    }
+    number_thirst_part._digits.resize(0);
+    int quotient;
+    int left;
+    int middle;
+    int right;
+    LongInt tmp;
+    for (long long number_thirst_position = 0; number_thirst_position < number_thirst._digits.size(); number_thirst_position = number_thirst_position + 1) {
+        number_thirst_part._digits.push_back(number_thirst._digits[number_thirst_position]);
+        quotient = 0;
+        left = 0;
+        right = LongInt::_base;
+        while (left <= right) {
+            middle = (left + right) / 2;
+            tmp = number_second * middle;
+            if (tmp <= number_thirst_part) {
+                quotient = middle;
+                left = middle + 1;
+            }
+            else {
+                right = middle - 1;
+            }
+        }
+        number_thirst_part = number_thirst_part - (number_second * quotient);
+        if (number_thirst_part == 0) {
+            number_thirst_part._digits.resize(0);
+        }
+    }
+    if (number_thirst_part._digits.empty()) {
+        return 0;
+    }
+    return number_thirst_part;
+}
+LongInt LongInt::operator %=(LongInt number) {
+    return *this = *this % std::move(number);
+}
+LongInt LongInt::pow(LongInt number_thirst, LongInt number_second) {
+    if (number_thirst == 0 and number_second == 0) {
+        throw "Fatal error. Pow calculation is impossible. It is impossible to raise zero to zero degree.";
+    }
+    if (number_second < 0) {
+        throw "Fatal error. Pow calculation is impossible. This class only support whole numbers, so erection to negative degree is impossible.";
+    }
+    LongInt result = 1;
+    while (number_second != 0) {
+        if (even(number_second)) {
+            number_second = number_second / 2;
+            number_thirst = number_thirst * number_thirst;
+        }
+        else {
+            number_second = number_second - 1;
+            result = result * number_thirst;
+        }
+    }
+    return result;
+}
+LongInt LongInt::_factorial_tree(LongInt number_thirst, const LongInt& number_second) {
+    if (number_thirst > number_second) {
+        return 1;
+    }
+    if (number_thirst == number_second) {
+        return number_thirst;
+    }
+    if (number_second - number_thirst == 1) {
+        return number_thirst * number_second;
+    }
+    LongInt tmp = (number_thirst + number_second) / 2;
+    return LongInt::_factorial_tree(number_thirst, tmp) * LongInt::_factorial_tree(tmp + 1, number_second);
+}
+LongInt LongInt::factorial(LongInt number) {
+    if (number < 1) {
+        throw "Fatal error. Factorial calculation is impossible. Factorial is defined only for _natural numbers.";
+    }
+    if (number == 1 or number == 2) {
+        return number;
+    }
+    return _factorial_tree(2, number);
+}
+LongInt LongInt::gcd(LongInt number_thirst, LongInt number_second) {
+    if (number_thirst == 0 or number_second == 0) {
+        throw "Fatal error. Gcd calculation is impossible. One of the numbers is zero.";
+    }
+    number_thirst._natural = true;
+    number_second._natural = true;
+    while (number_thirst != 0 and number_second != 0) {
+        if (number_thirst > number_second) {
+            number_thirst = number_thirst % number_second;
+        }
+        else {
+            number_second = number_second % number_thirst;
+        }
+    }
+    return number_thirst + number_second;
+}
+LongInt LongInt::lcm(LongInt number_thirst, LongInt number_second) {
+    if (number_thirst == 0 or number_second == 0) {
+        throw "Fatal error. Lcm calculation is impossible. One of the numbers is zero.";
+    }
+    number_thirst._natural = true;
+    number_second._natural = true;
+    return number_thirst * number_second / LongInt::gcd(number_thirst, number_second);
+}
+LongInt LongInt::sqrt(const LongInt& number) {
+    if (number._natural == false) {
+        throw "Fatal error. Sqrt calculation is impossible. Sqrt operation over negative numbers has no result.";
+    }
+    if (number == 0) {
+        return number;
+    }
+    LongInt left = 1;
+    LongInt right = number / 2 + 1;
+    LongInt middle;
+    LongInt result;
+    while (left <= right) {
+        middle = left + (right - left) / 2;
+        if (middle <= number / middle) {
+            left = middle + 1;
+            result = middle;
+        }
+        else {
+            right = middle - 1;
+        }
+    }
+    return result;
+}
+LongInt LongInt::cbrt(LongInt number) {
+    if (number == 0) {
+        return number;
+    }
+    bool result_natural = number._natural;
+    number._natural = true;
+    LongInt left = 1;
+    LongInt right = number / 2 + 1;
+    LongInt middle;
+    LongInt result;
+    while (left <= right) {
+        middle = left + (right - left) / 2;
+        if (middle <= number / (middle * middle)) {
+            left = middle + 1;
+            result = middle;
+        }
+        else {
+            right = middle - 1;
+        }
+    }
+    result._natural = result_natural;
+    return result;
+}
