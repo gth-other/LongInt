@@ -543,6 +543,9 @@ LongInt LongInt::factorial(LongInt number) {
     return _factorial_tree(2, number);
 }
 LongInt LongInt::gcd(LongInt number_first, LongInt number_second) {
+    if (number_first == 0 and number_second == 0) {
+        throw "Fatal error. Lcm calculation is impossible. Both numbers are zeros.";
+    }
     number_first._natural = true;
     number_second._natural = true;
     if (number_first == 0) {
