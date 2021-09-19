@@ -48,42 +48,45 @@ LongInt::LongInt(std::string string) {
     _digits = LongInt::_string_convert_to_vector(string);
 }
 LongInt::LongInt(signed int number) {
-    if (number < 0) {
-        number = number * -1;
+    std::string string = std::to_string(number);
+    if (string[0] == '-') {
+        string.erase(string.begin() + 0);
         _natural = false;
     }
     else {
         _natural = true;
     }
-    _digits = LongInt::_string_convert_to_vector(std::to_string(number));
+    _digits = LongInt::_string_convert_to_vector(string);
 }
 LongInt::LongInt(unsigned int number) {
     _natural = true;
     _digits = LongInt::_string_convert_to_vector(std::to_string(number));
 }
 LongInt::LongInt(signed long number) {
-    if (number < 0) {
-        number = number * -1;
+    std::string string = std::to_string(number);
+    if (string[0] == '-') {
+        string.erase(string.begin() + 0);
         _natural = false;
     }
     else {
         _natural = true;
     }
-    _digits = LongInt::_string_convert_to_vector(std::to_string(number));
+    _digits = LongInt::_string_convert_to_vector(string);
 }
 LongInt::LongInt(unsigned long number) {
     _natural = true;
     _digits = LongInt::_string_convert_to_vector(std::to_string(number));
 }
 LongInt::LongInt(signed long long number) {
-    if (number < 0) {
-        number = number * -1;
+    std::string string = std::to_string(number);
+    if (string[0] == '-') {
+        string.erase(string.begin() + 0);
         _natural = false;
     }
     else {
         _natural = true;
     }
-    _digits = LongInt::_string_convert_to_vector(std::to_string(number));
+    _digits = LongInt::_string_convert_to_vector(string);
 }
 LongInt::LongInt(unsigned long long number) {
     _natural = true;
