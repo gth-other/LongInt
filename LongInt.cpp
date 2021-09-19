@@ -543,11 +543,14 @@ LongInt LongInt::factorial(LongInt number) {
     return _factorial_tree(2, number);
 }
 LongInt LongInt::gcd(LongInt number_first, LongInt number_second) {
-    if (number_first == 0 or number_second == 0) {
-        throw "Fatal error. Gcd calculation is impossible. One of the numbers is zero.";
-    }
     number_first._natural = true;
     number_second._natural = true;
+    if (number_first == 0) {
+        return number_second;
+    }
+    if (number_second == 0) {
+        return number_first;
+    }
     while (number_first != 0 and number_second != 0) {
         if (number_first > number_second) {
             number_first = number_first % number_second;
