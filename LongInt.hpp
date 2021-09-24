@@ -48,7 +48,7 @@ public:
     static LongInt icbrt(LongInt number);
 private:
     std::vector<int> _digits;
-    bool _natural;
+    bool _with_sign;
     static const int _base = 1000000000;
     static const int _base_length = 9;
     static const int _length_maximum_for_default_multiply = 256;
