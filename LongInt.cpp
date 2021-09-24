@@ -572,9 +572,9 @@ LongInt LongInt::lcm(LongInt number_first, LongInt number_second) {
     number_second._natural = true;
     return number_first * number_second / LongInt::gcd(number_first, number_second);
 }
-LongInt LongInt::sqrt(const LongInt& number) {
+LongInt LongInt::isqrt(const LongInt& number) {
     if (number._natural == false) {
-        throw "Fatal error. Sqrt calculation is impossible. Sqrt operation over negative numbers has no result.";
+        throw "Fatal error. Isqrt calculation is impossible. Sqrt operation over negative numbers has no result.";
     }
     if (number == 0) {
         return number;
@@ -595,7 +595,7 @@ LongInt LongInt::sqrt(const LongInt& number) {
     }
     return result;
 }
-LongInt LongInt::cbrt(LongInt number) {
+LongInt LongInt::icbrt(LongInt number) {
     if (number == 0) {
         return number;
     }

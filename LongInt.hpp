@@ -44,8 +44,8 @@ public:
     static LongInt factorial(LongInt number);
     static LongInt gcd(LongInt number_first, LongInt number_second);
     static LongInt lcm(LongInt number_first, LongInt number_second);
-    static LongInt sqrt(const LongInt& number);
-    static LongInt cbrt(LongInt number);
+    static LongInt isqrt(const LongInt& number);
+    static LongInt icbrt(LongInt number);
 private:
     std::vector<int> _digits;
     bool _natural;

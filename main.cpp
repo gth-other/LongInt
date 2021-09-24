@@ -221,7 +221,7 @@ int main() {
             getline(std::cin, number_first_string);
             time_start = clock();
             number_first = number_first_string;
-            result_longint = LongInt::sqrt(number_first);
+            result_longint = LongInt::isqrt(number_first);
             std::cout << "Результат: " << result_longint << "." << std::endl;
             time_end = clock();
             std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
@@ -231,7 +231,7 @@ int main() {
             getline(std::cin, number_first_string);
             time_start = clock();
             number_first = number_first_string;
-            result_longint = LongInt::cbrt(number_first);
+            result_longint = LongInt::icbrt(number_first);
             std::cout << "Результат: " << result_longint << "." << std::endl;
             time_end = clock();
             std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
