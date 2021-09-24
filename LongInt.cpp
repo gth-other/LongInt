@@ -97,7 +97,7 @@ std::string LongInt::to_string(LongInt number) {
         return "0";
     }
     std::string result;
-    if (number._natural == false) {
+    if (!number._natural) {
         result.append("-");
     }
     result.reserve(number._digits.size() * (_base_length - 1));
@@ -156,10 +156,10 @@ bool LongInt::even(LongInt number) {
     return false;
 }
 bool LongInt::odd(LongInt number) {
-    return (LongInt::even(number) == false);
+    return !LongInt::even(std::move(number));
 }
 char LongInt::sign(const LongInt& number) {
-    if (number._natural == true) {
+    if (number._natural) {
         return '+';
     }
     return '-';
@@ -179,22 +179,22 @@ bool operator ==(LongInt number_first, LongInt number_second) {
     return true;
 }
 bool operator !=(LongInt number_first, LongInt number_second) {
-    return (number_first == number_second == false);
+    return !(std::move(number_first) == std::move(number_second));
 }
 bool operator >(LongInt number_first, LongInt number_second) {
     if (number_first == number_second) {
         return false;
     }
-    if (number_first._natural == true and number_second._natural == false) {
+    if (number_first._natural and !number_second._natural) {
         return true;
     }
-    if (number_first._natural == false and number_second._natural == true) {
+    if (!number_first._natural and number_second._natural) {
         return false;
     }
-    if (number_first._natural == false and number_second._natural == false) {
+    if (!number_first._natural and !number_second._natural) {
         number_first._natural = true;
         number_second._natural = true;
-        return (number_first > number_second == false);
+        return !(number_first > number_second);
     }
     if (number_first._digits.size() > number_second._digits.size()) {
         return true;
@@ -213,7 +213,7 @@ bool operator >(LongInt number_first, LongInt number_second) {
     return false;
 }
 bool operator <(const LongInt& number_first, const LongInt& number_second) {
-    if (number_first != number_second and (number_first > number_second == false)) {
+    if (number_first != number_second and !(number_first > number_second)) {
         return true;
     }
     return false;
@@ -243,15 +243,15 @@ LongInt LongInt::min(LongInt number_first, LongInt number_second) {
     return number_second;
 }
 LongInt operator +(LongInt number_first, LongInt number_second) {
-    if (number_first._natural == true and number_second._natural == false) {
+    if (number_first._natural and !number_second._natural) {
         number_second._natural = true;
         return number_first - number_second;
     }
-    if (number_first._natural == false and number_second._natural == true) {
+    if (!number_first._natural and number_second._natural) {
         number_first._natural = true;
         return number_second - number_first;
     }
-    if (number_first._natural == false and number_second._natural == false) {
+    if (!number_first._natural and !number_second._natural) {
         number_second._natural = true;
     }
     if (number_first._digits.size() > number_second._digits.size()) {
@@ -283,17 +283,17 @@ LongInt LongInt::operator ++(int) {
     return *this = *this - 1;
 }
 LongInt operator -(LongInt number_first, LongInt number_second) {
-    if (number_first._natural == true and number_second._natural == false) {
+    if (number_first._natural and !number_second._natural) {
         number_second._natural = true;
         return number_first + number_second;
     }
-    if (number_first._natural == false and number_second._natural == true) {
+    if (!number_first._natural and number_second._natural) {
         number_first._natural = true;
         LongInt tmp = number_first + number_second;
         tmp._natural = false;
         return tmp;
     }
-    if (number_first._natural == false and number_second._natural == false) {
+    if (!number_first._natural and !number_second._natural) {
         number_first._natural = true;
         number_second._natural = true;
         LongInt tmp;
@@ -384,7 +384,7 @@ LongInt LongInt::_multiply_karatsuba(LongInt number_first, LongInt number_second
     LongInt product_first;
     LongInt product_second;
     LongInt product_third;
-    if (iteration_thirst == true) {
+    if (iteration_thirst) {
         auto thread_first = std::async(LongInt::_multiply_karatsuba, number_first_part_left, number_second_part_left, false);
         auto thread_second = std::async(LongInt::_multiply_karatsuba, number_first_part_right, number_second_part_right, false);
         product_third = LongInt::_multiply_karatsuba(LongInt::_zeroes_leading_remove(number_first_part_left) + LongInt::_zeroes_leading_remove(number_first_part_right), LongInt::_zeroes_leading_remove(number_second_part_left) + LongInt::_zeroes_leading_remove(number_second_part_right), false);
@@ -574,7 +574,7 @@ LongInt LongInt::lcm(LongInt number_first, LongInt number_second) {
     return number_first * number_second / LongInt::gcd(number_first, number_second);
 }
 LongInt LongInt::isqrt(const LongInt& number) {
-    if (number._natural == false) {
+    if (!number._natural) {
         throw "Fatal error. Isqrt calculation is impossible. Sqrt operation over negative numbers has no result.";
     }
     if (number == 0) {
