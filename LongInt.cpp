@@ -372,22 +372,14 @@ LongInt LongInt::_multiply_karatsuba(LongInt number_first, LongInt number_second
     LongInt number_first_part_right;
     LongInt number_second_part_left;
     LongInt number_second_part_right;
-    number_first_part_left._digits.resize(0);
-    number_first_part_right._digits.resize(0);
-    number_second_part_left._digits.resize(0);
-    number_second_part_right._digits.resize(0);
-    number_first_part_left._digits.reserve(numbers_part_size);
-    number_first_part_right._digits.reserve(numbers_part_size);
-    number_second_part_left._digits.reserve(numbers_part_size);
-    number_second_part_right._digits.reserve(numbers_part_size);
-    for (long long i = 0; i < numbers_part_size; i = i + 1) {
-        number_first_part_left._digits.push_back(number_first._digits[i]);
-        number_second_part_left._digits.push_back(number_second._digits[i]);
-    }
-    for (long long i = numbers_part_size; i < numbers_size; i = i + 1) {
-        number_first_part_right._digits.push_back(number_first._digits[i]);
-        number_second_part_right._digits.push_back(number_second._digits[i]);
-    }
+    number_first_part_left._digits.resize(numbers_part_size);
+    number_first_part_right._digits.resize(numbers_part_size);
+    number_second_part_left._digits.resize(numbers_part_size);
+    number_second_part_right._digits.resize(numbers_part_size);
+    std::copy(number_first._digits.begin() + 0, number_first._digits.begin() + numbers_part_size, number_first_part_left._digits.begin() + 0);
+    std::copy(number_second._digits.begin() + 0, number_second._digits.begin() + numbers_part_size, number_second_part_left._digits.begin() + 0);
+    std::copy(number_first._digits.begin() + numbers_part_size, number_first._digits.begin() + numbers_size, number_first_part_right._digits.begin() + 0);
+    std::copy(number_second._digits.begin() + numbers_part_size, number_second._digits.begin() + numbers_size, number_second_part_right._digits.begin() + 0);
     LongInt product_first = LongInt::_multiply_karatsuba(number_first_part_left, number_second_part_left);
     LongInt product_second = LongInt::_multiply_karatsuba(number_first_part_right, number_second_part_right);
     LongInt product_third = LongInt::_multiply_karatsuba(LongInt::_zeroes_leading_remove(number_first_part_left) + LongInt::_zeroes_leading_remove(number_first_part_right), LongInt::_zeroes_leading_remove(number_second_part_left) + LongInt::_zeroes_leading_remove(number_second_part_right));
