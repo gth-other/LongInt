@@ -536,7 +536,7 @@ LongInt LongInt::_factorial_tree(LongInt number_first, const LongInt& number_sec
 }
 LongInt LongInt::factorial(LongInt number) {
     if (number < 1) {
-        throw "Fatal error. Factorial calculation is impossible. Factorial is defined only for _natural numbers.";
+        throw "Fatal error. Factorial calculation is impossible. Factorial is defined only for natural numbers.";
     }
     if (number == 1 or number == 2) {
         return number;
