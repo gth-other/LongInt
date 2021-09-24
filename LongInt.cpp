@@ -23,7 +23,6 @@ std::vector<int> LongInt::_string_convert_to_vector(const std::string& string) {
 }
 LongInt::LongInt() {
     _digits.resize(1);
-    _digits[0] = 0;
     _natural = true;
 }
 LongInt::LongInt(std::string string) {
@@ -142,10 +141,7 @@ LongInt LongInt::_shift_left(LongInt number, long long shift_power) {
     if (number == 0) {
         return number;
     }
-    number._digits.reserve(shift_power);
-    for (long long i = 0; i < shift_power; i = i + 1) {
-        number._digits.push_back(0);
-    }
+    number._digits.resize(number._digits.size() + shift_power);
     return number;
 }
 LongInt LongInt::abs(LongInt number_first) {
