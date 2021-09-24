@@ -24,7 +24,7 @@ std::vector<int> LongInt::_string_convert_to_vector(const std::string& string) {
 }
 LongInt::LongInt() {
     _digits.resize(1);
-    _with_sign = true;
+    _sign = true;
 }
 LongInt::LongInt(std::string string) {
     if (string.empty() or (string.size() == 1 and string[0] == '-')) {
@@ -32,10 +32,10 @@ LongInt::LongInt(std::string string) {
     }
     if (string[0] == '-') {
         string.erase(string.begin() + 0);
-        _with_sign = false;
+        _sign = false;
     }
     else {
-        _with_sign = true;
+        _sign = true;
     }
     for (long long i = 0; i < string.size(); i = i + 1) {
         if (string[i] < 48 or string[i] > 57) {
@@ -51,45 +51,45 @@ LongInt::LongInt(signed int number) {
     std::string string = std::to_string(number);
     if (string[0] == '-') {
         string.erase(string.begin() + 0);
-        _with_sign = false;
+        _sign = false;
     }
     else {
-        _with_sign = true;
+        _sign = true;
     }
     _digits = LongInt::_string_convert_to_vector(string);
 }
 LongInt::LongInt(unsigned int number) {
-    _with_sign = true;
+    _sign = true;
     _digits = LongInt::_string_convert_to_vector(std::to_string(number));
 }
 LongInt::LongInt(signed long number) {
     std::string string = std::to_string(number);
     if (string[0] == '-') {
         string.erase(string.begin() + 0);
-        _with_sign = false;
+        _sign = false;
     }
     else {
-        _with_sign = true;
+        _sign = true;
     }
     _digits = LongInt::_string_convert_to_vector(string);
 }
 LongInt::LongInt(unsigned long number) {
-    _with_sign = true;
+    _sign = true;
     _digits = LongInt::_string_convert_to_vector(std::to_string(number));
 }
 LongInt::LongInt(signed long long number) {
     std::string string = std::to_string(number);
     if (string[0] == '-') {
         string.erase(string.begin() + 0);
-        _with_sign = false;
+        _sign = false;
     }
     else {
-        _with_sign = true;
+        _sign = true;
     }
     _digits = LongInt::_string_convert_to_vector(string);
 }
 LongInt::LongInt(unsigned long long number) {
-    _with_sign = true;
+    _sign = true;
     _digits = LongInt::_string_convert_to_vector(std::to_string(number));
 }
 std::string LongInt::to_string(LongInt number) {
@@ -97,7 +97,7 @@ std::string LongInt::to_string(LongInt number) {
         return "0";
     }
     std::string result;
-    if (!number._with_sign) {
+    if (!number._sign) {
         result.append("-");
     }
     result.reserve(number._digits.size() * (_base_length - 1));
@@ -146,7 +146,7 @@ LongInt LongInt::_shift_left(LongInt number, long long shift_power) {
     return number;
 }
 LongInt LongInt::abs(LongInt number_first) {
-    number_first._with_sign = true;
+    number_first._sign = true;
     return number_first;
 }
 bool LongInt::even(LongInt number) {
@@ -158,14 +158,8 @@ bool LongInt::even(LongInt number) {
 bool LongInt::odd(LongInt number) {
     return !LongInt::even(std::move(number));
 }
-char LongInt::sign(const LongInt& number) {
-    if (number._with_sign) {
-        return '+';
-    }
-    return '-';
-}
 bool operator ==(LongInt number_first, LongInt number_second) {
-    if (number_first._with_sign != number_second._with_sign) {
+    if (number_first._sign != number_second._sign) {
         return false;
     }
     if (number_first._digits.size() != number_second._digits.size()) {
@@ -185,15 +179,15 @@ bool operator >(LongInt number_first, LongInt number_second) {
     if (number_first == number_second) {
         return false;
     }
-    if (number_first._with_sign and !number_second._with_sign) {
+    if (number_first._sign and !number_second._sign) {
         return true;
     }
-    if (!number_first._with_sign and number_second._with_sign) {
+    if (!number_first._sign and number_second._sign) {
         return false;
     }
-    if (!number_first._with_sign and !number_second._with_sign) {
-        number_first._with_sign = true;
-        number_second._with_sign = true;
+    if (!number_first._sign and !number_second._sign) {
+        number_first._sign = true;
+        number_second._sign = true;
         return !(number_first > number_second);
     }
     if (number_first._digits.size() > number_second._digits.size()) {
@@ -243,16 +237,16 @@ LongInt LongInt::min(LongInt number_first, LongInt number_second) {
     return number_second;
 }
 LongInt operator +(LongInt number_first, LongInt number_second) {
-    if (number_first._with_sign and !number_second._with_sign) {
-        number_second._with_sign = true;
+    if (number_first._sign and !number_second._sign) {
+        number_second._sign = true;
         return number_first - number_second;
     }
-    if (!number_first._with_sign and number_second._with_sign) {
-        number_first._with_sign = true;
+    if (!number_first._sign and number_second._sign) {
+        number_first._sign = true;
         return number_second - number_first;
     }
-    if (!number_first._with_sign and !number_second._with_sign) {
-        number_second._with_sign = true;
+    if (!number_first._sign and !number_second._sign) {
+        number_second._sign = true;
     }
     if (number_first._digits.size() > number_second._digits.size()) {
         number_second = LongInt::_shift_right(number_second, number_first._digits.size() - number_second._digits.size());
@@ -283,19 +277,19 @@ LongInt LongInt::operator ++(int) {
     return *this = *this - 1;
 }
 LongInt operator -(LongInt number_first, LongInt number_second) {
-    if (number_first._with_sign and !number_second._with_sign) {
-        number_second._with_sign = true;
+    if (number_first._sign and !number_second._sign) {
+        number_second._sign = true;
         return number_first + number_second;
     }
-    if (!number_first._with_sign and number_second._with_sign) {
-        number_first._with_sign = true;
+    if (!number_first._sign and number_second._sign) {
+        number_first._sign = true;
         LongInt tmp = number_first + number_second;
-        tmp._with_sign = false;
+        tmp._sign = false;
         return tmp;
     }
-    if (!number_first._with_sign and !number_second._with_sign) {
-        number_first._with_sign = true;
-        number_second._with_sign = true;
+    if (!number_first._sign and !number_second._sign) {
+        number_first._sign = true;
+        number_second._sign = true;
         LongInt tmp;
         tmp = number_first;
         number_first = number_second;
@@ -305,7 +299,7 @@ LongInt operator -(LongInt number_first, LongInt number_second) {
         LongInt tmp = number_first;
         number_first = number_second;
         number_second = tmp;
-        number_first._with_sign = false;
+        number_first._sign = false;
     }
     number_second = LongInt::_shift_right(number_second, number_first._digits.size() - number_second._digits.size());
     int different;
@@ -400,7 +394,7 @@ LongInt LongInt::_multiply_karatsuba(LongInt number_first, LongInt number_second
 }
 LongInt operator *(const LongInt& number_first, const LongInt& number_second) {
     LongInt result = LongInt::_multiply_karatsuba(number_first, number_second, true);
-    result._with_sign = (number_first._with_sign == number_second._with_sign);
+    result._sign = (number_first._sign == number_second._sign);
     return result;
 }
 LongInt LongInt::operator *=(const LongInt& number) {
@@ -408,10 +402,10 @@ LongInt LongInt::operator *=(const LongInt& number) {
 }
 LongInt operator /(LongInt number_first, LongInt number_second) {
     LongInt result;
-    result._with_sign = (number_first._with_sign == number_second._with_sign);
+    result._sign = (number_first._sign == number_second._sign);
     LongInt number_first_part;
-    number_first._with_sign = true;
-    number_second._with_sign = true;
+    number_first._sign = true;
+    number_second._sign = true;
     if (number_second == 0) {
         throw "Fatal error. Division whole is impossible. Attempt to divide by zero.";
     }
@@ -456,8 +450,8 @@ LongInt LongInt::operator /=(LongInt number) {
 }
 LongInt operator %(LongInt number_first, LongInt number_second) {
     LongInt number_first_part;
-    number_first._with_sign = true;
-    number_second._with_sign = true;
+    number_first._sign = true;
+    number_second._sign = true;
     if (number_second == 0) {
         throw "Fatal error. Division remainder calculation is impossible. Attempt to divide by zero.";
     }
@@ -545,8 +539,8 @@ LongInt LongInt::gcd(LongInt number_first, LongInt number_second) {
     if (number_first == 0 and number_second == 0) {
         throw "Fatal error. Gcd calculation is impossible. Both numbers are zeros.";
     }
-    number_first._with_sign = true;
-    number_second._with_sign = true;
+    number_first._sign = true;
+    number_second._sign = true;
     if (number_first == 0) {
         return number_second;
     }
@@ -567,12 +561,12 @@ LongInt LongInt::lcm(LongInt number_first, LongInt number_second) {
     if (number_first == 0 or number_second == 0) {
         throw "Fatal error. Lcm calculation is impossible. One of the numbers is zero.";
     }
-    number_first._with_sign = true;
-    number_second._with_sign = true;
+    number_first._sign = true;
+    number_second._sign = true;
     return number_first * number_second / LongInt::gcd(number_first, number_second);
 }
 LongInt LongInt::isqrt(const LongInt& number) {
-    if (!number._with_sign) {
+    if (!number._sign) {
         throw "Fatal error. Isqrt calculation is impossible. Sqrt operation over negative numbers has no result.";
     }
     if (number == 0) {
@@ -598,8 +592,8 @@ LongInt LongInt::icbrt(LongInt number) {
     if (number == 0) {
         return number;
     }
-    bool result_natural = number._with_sign;
-    number._with_sign = true;
+    bool result_natural = number._sign;
+    number._sign = true;
     LongInt left = 1;
     LongInt right = number / 2 + 1;
     LongInt middle;
@@ -614,6 +608,6 @@ LongInt LongInt::icbrt(LongInt number) {
             right = middle - 1;
         }
     }
-    result._with_sign = result_natural;
+    result._sign = result_natural;
     return result;
 }

@@ -17,7 +17,6 @@ public:
     static LongInt abs(LongInt number_first);
     static bool even(LongInt number);
     static bool odd(LongInt number);
-    static char sign(const LongInt& number);
     friend bool operator ==(LongInt number_first, LongInt number_second);
     friend bool operator !=(LongInt number_first, LongInt number_second);
     friend bool operator >(LongInt number_first, LongInt number_second);
@@ -48,7 +47,7 @@ public:
     static LongInt icbrt(LongInt number);
 private:
     std::vector<int> _digits;
-    bool _with_sign;
+    bool _sign;
     static const int _base = 1000000000;
     static const int _base_length = 9;
     static const int _length_maximum_for_default_multiply = 256;
