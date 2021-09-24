@@ -24,14 +24,13 @@ int main() {
     std::cout << "8| Подсчет НОД двух целых чисел." << std::endl;
     std::cout << "9| Подсчет НОК двух целых чисел." << std::endl;
     std::cout << "10| Получение модуля целого числа." << std::endl;
-    std::cout << "11| Получение знака целого числа." << std::endl;
-    std::cout << "12| Быстрая проверка целого числа на четность." << std::endl;
-    std::cout << "13| Быстрая проверка целого числа на нечетность." << std::endl;
-    std::cout << "14| Получение максимального из двух целых чисел." << std::endl;
-    std::cout << "15| Получение минимального из двух целых чисел." << std::endl;
-    std::cout << "16| Извлечение целого квадратного корня из целого неотрицательного числа." << std::endl;
-    std::cout << "17| Извлечение целого кубического корня из целого числа." << std::endl;
-    std::cout << "18| Выход." << std::endl;
+    std::cout << "11| Быстрая проверка целого числа на четность." << std::endl;
+    std::cout << "12| Быстрая проверка целого числа на нечетность." << std::endl;
+    std::cout << "13| Получение максимального из двух целых чисел." << std::endl;
+    std::cout << "14| Получение минимального из двух целых чисел." << std::endl;
+    std::cout << "15| Извлечение целого квадратного корня из целого неотрицательного числа." << std::endl;
+    std::cout << "16| Извлечение целого кубического корня из целого числа." << std::endl;
+    std::cout << "17| Выход." << std::endl;
     for (; ;) {
         std::cout << std::endl;
         std::cout << std::endl;
@@ -166,22 +165,12 @@ int main() {
             getline(std::cin, number_first_string);
             time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
-            result_char = LongInt::sign(number_first);
-            std::cout << "Результат: " << result_char << "." << std::endl;
-            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
-        }
-        else if (action == "12") {
-            std::cout << "Введите число: ";
-            getline(std::cin, number_first_string);
-            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-            number_first = number_first_string;
             result_bool = LongInt::even(number_first);
             std::cout << "Результат: " << result_bool << "." << std::endl;
             time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
-        else if (action == "13") {
+        else if (action == "12") {
             std::cout << "Введите число: ";
             getline(std::cin, number_first_string);
             time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -191,7 +180,7 @@ int main() {
             time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
-        else if (action == "14") {
+        else if (action == "13") {
             std::cout << "Введите первое число: ";
             getline(std::cin, number_first_string);
             std::cout << "Введите второе число: ";
@@ -204,7 +193,7 @@ int main() {
             time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
-        else if (action == "15") {
+        else if (action == "14") {
             std::cout << "Введите первое число: ";
             getline(std::cin, number_first_string);
             std::cout << "Введите второе число: ";
@@ -217,7 +206,7 @@ int main() {
             time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
-        else if (action == "16") {
+        else if (action == "15") {
             std::cout << "Введите число: ";
             getline(std::cin, number_first_string);
             time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -227,7 +216,7 @@ int main() {
             time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
-        else if (action == "17") {
+        else if (action == "16") {
             std::cout << "Введите число: ";
             getline(std::cin, number_first_string);
             time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -237,11 +226,11 @@ int main() {
             time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
-        else if (action == "18") {
+        else if (action == "17") {
             break;
         }
         else {
-            std::cout << "Неизвестный номер команды. Введите число от 1 до 18." << std::endl;
+            std::cout << "Неизвестный номер команды. Введите число от 1 до 17." << std::endl;
         }
     }
     return 0;
