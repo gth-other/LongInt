@@ -585,7 +585,7 @@ LongInt LongInt::sqrt(const LongInt& number) {
     LongInt result;
     while (left <= right) {
         middle = left + (right - left) / 2;
-        if (middle <= number / middle) {
+        if (middle * middle <= number) {
             left = middle + 1;
             result = middle;
         }
@@ -607,7 +607,7 @@ LongInt LongInt::cbrt(LongInt number) {
     LongInt result;
     while (left <= right) {
         middle = left + (right - left) / 2;
-        if (middle <= number / (middle * middle)) {
+        if (middle * middle * middle <= number) {
             left = middle + 1;
             result = middle;
         }
