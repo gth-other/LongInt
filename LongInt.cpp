@@ -167,18 +167,6 @@ char LongInt::sign(const LongInt& number) {
     }
     return '-';
 }
-LongInt LongInt::max(LongInt number_first, LongInt number_second) {
-    if (number_first > number_second) {
-        return number_first;
-    }
-    return number_second;
-}
-LongInt LongInt::min(LongInt number_first, LongInt number_second) {
-    if (number_first < number_second) {
-        return number_first;
-    }
-    return number_second;
-}
 bool operator ==(LongInt number_first, LongInt number_second) {
     if (number_first._natural != number_second._natural) {
         return false;
@@ -244,6 +232,18 @@ bool operator <=(const LongInt& number_first, const LongInt& number_second) {
         return true;
     }
     return false;
+}
+LongInt LongInt::max(LongInt number_first, LongInt number_second) {
+    if (number_first > number_second) {
+        return number_first;
+    }
+    return number_second;
+}
+LongInt LongInt::min(LongInt number_first, LongInt number_second) {
+    if (number_first < number_second) {
+        return number_first;
+    }
+    return number_second;
 }
 LongInt operator +(LongInt number_first, LongInt number_second) {
     if (number_first._natural == true and number_second._natural == false) {
