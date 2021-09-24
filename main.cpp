@@ -1,4 +1,5 @@
 #include <iostream>
+#include <chrono>
 #include "LongInt.hpp"
 
 
@@ -41,200 +42,200 @@ int main() {
             getline(std::cin, number_first_string);
             std::cout << "Введите второе число: ";
             getline(std::cin, number_second_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             number_second = number_second_string;
             result_longint = number_first + number_second;
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "2") {
             std::cout << "Введите первое число: ";
             getline(std::cin, number_first_string);
             std::cout << "Введите второе число: ";
             getline(std::cin, number_second_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             number_second = number_second_string;
             result_longint = number_first - number_second;
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "3") {
             std::cout << "Введите первое число: ";
             getline(std::cin, number_first_string);
             std::cout << "Введите второе число: ";
             getline(std::cin, number_second_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             number_second = number_second_string;
             result_longint = number_first * number_second;
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "4") {
             std::cout << "Введите первое число: ";
             getline(std::cin, number_first_string);
             std::cout << "Введите второе число: ";
             getline(std::cin, number_second_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             number_second = number_second_string;
             result_longint = number_first / number_second;
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "5") {
             std::cout << "Введите первое число: ";
             getline(std::cin, number_first_string);
             std::cout << "Введите второе число: ";
             getline(std::cin, number_second_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             number_second = number_second_string;
             result_longint = number_first % number_second;
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "6") {
             std::cout << "Введите первое число: ";
             getline(std::cin, number_first_string);
             std::cout << "Введите второе число: ";
             getline(std::cin, number_second_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             number_second = number_second_string;
             result_longint = LongInt::pow(number_first, number_second);
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "7") {
             std::cout << "Введите число: ";
             getline(std::cin, number_first_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             result_longint = LongInt::factorial(number_first);
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "8") {
             std::cout << "Введите первое число: ";
             getline(std::cin, number_first_string);
             std::cout << "Введите второе число: ";
             getline(std::cin, number_second_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             number_second = number_second_string;
             result_longint = LongInt::gcd(number_first, number_second);
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "9") {
             std::cout << "Введите первое число: ";
             getline(std::cin, number_first_string);
             std::cout << "Введите второе число: ";
             getline(std::cin, number_second_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             number_second = number_second_string;
             result_longint = LongInt::lcm(number_first, number_second);
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "10") {
             std::cout << "Введите число: ";
             getline(std::cin, number_first_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             result_longint = LongInt::abs(number_first);
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "11") {
             std::cout << "Введите число: ";
             getline(std::cin, number_first_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             result_char = LongInt::sign(number_first);
             std::cout << "Результат: " << result_char << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "12") {
             std::cout << "Введите число: ";
             getline(std::cin, number_first_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             result_bool = LongInt::even(number_first);
             std::cout << "Результат: " << result_bool << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "13") {
             std::cout << "Введите число: ";
             getline(std::cin, number_first_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             result_bool = LongInt::odd(number_first);
             std::cout << "Результат: " << result_bool << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "14") {
             std::cout << "Введите первое число: ";
             getline(std::cin, number_first_string);
             std::cout << "Введите второе число: ";
             getline(std::cin, number_second_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             number_second = number_second_string;
             result_longint = LongInt::max(number_first, number_second);
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "15") {
             std::cout << "Введите первое число: ";
             getline(std::cin, number_first_string);
             std::cout << "Введите второе число: ";
             getline(std::cin, number_second_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             number_second = number_second_string;
             result_longint = LongInt::min(number_first, number_second);
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "16") {
             std::cout << "Введите число: ";
             getline(std::cin, number_first_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             result_longint = LongInt::isqrt(number_first);
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "17") {
             std::cout << "Введите число: ";
             getline(std::cin, number_first_string);
-            time_start = clock();
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
             number_first = number_first_string;
             result_longint = LongInt::icbrt(number_first);
             std::cout << "Результат: " << result_longint << "." << std::endl;
-            time_end = clock();
-            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / CLOCKS_PER_SEC << " секунд(а/ы)." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "18") {
             break;

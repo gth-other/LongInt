@@ -56,6 +56,6 @@ private:
     static LongInt _zeroes_leading_remove(LongInt number);
     static LongInt _shift_right(LongInt number, long long shift_power);
     static LongInt _shift_left(LongInt number, long long shift_power);
-    static LongInt _multiply_karatsuba(LongInt number_first, LongInt number_second);
+    static LongInt _multiply_karatsuba(LongInt number_first, LongInt number_second, bool iteration_thirst);
     static LongInt _factorial_tree(LongInt number_first, const LongInt& number_second);
 };

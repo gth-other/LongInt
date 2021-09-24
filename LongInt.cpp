@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <future>
 #include "LongInt.hpp"
 
 
@@ -338,7 +339,7 @@ LongInt LongInt::operator --(int) {
     *this = *this - 1;
     return *this = *this + 1;
 }
-LongInt LongInt::_multiply_karatsuba(LongInt number_first, LongInt number_second) {
+LongInt LongInt::_multiply_karatsuba(LongInt number_first, LongInt number_second, bool iteration_thirst) {
     if (std::min(number_first._digits.size(), number_second._digits.size()) <= _length_maximum_for_default_multiply) {
         number_first = LongInt::_zeroes_leading_remove(number_first);
         number_second = LongInt::_zeroes_leading_remove(number_second);
@@ -380,13 +381,25 @@ LongInt LongInt::_multiply_karatsuba(LongInt number_first, LongInt number_second
     std::copy(number_second._digits.begin() + 0, number_second._digits.begin() + numbers_part_size, number_second_part_left._digits.begin() + 0);
     std::copy(number_first._digits.begin() + numbers_part_size, number_first._digits.begin() + numbers_size, number_first_part_right._digits.begin() + 0);
     std::copy(number_second._digits.begin() + numbers_part_size, number_second._digits.begin() + numbers_size, number_second_part_right._digits.begin() + 0);
-    LongInt product_first = LongInt::_multiply_karatsuba(number_first_part_left, number_second_part_left);
-    LongInt product_second = LongInt::_multiply_karatsuba(number_first_part_right, number_second_part_right);
-    LongInt product_third = LongInt::_multiply_karatsuba(LongInt::_zeroes_leading_remove(number_first_part_left) + LongInt::_zeroes_leading_remove(number_first_part_right), LongInt::_zeroes_leading_remove(number_second_part_left) + LongInt::_zeroes_leading_remove(number_second_part_right));
+    LongInt product_first;
+    LongInt product_second;
+    LongInt product_third;
+    if (iteration_thirst == true) {
+        auto thread_first = std::async(LongInt::_multiply_karatsuba, number_first_part_left, number_first_part_right, false);
+        auto thread_second = std::async(LongInt::_multiply_karatsuba, number_second_part_left, number_second_part_right, false);
+        product_third = LongInt::_multiply_karatsuba(LongInt::_zeroes_leading_remove(number_first_part_left) + LongInt::_zeroes_leading_remove(number_first_part_right), LongInt::_zeroes_leading_remove(number_second_part_left) + LongInt::_zeroes_leading_remove(number_second_part_right), false);
+        product_first = thread_first.get();
+        product_second = thread_second.get();
+    }
+    else {
+        product_first = LongInt::_multiply_karatsuba(number_first_part_left, number_second_part_left, false);
+        product_second = LongInt::_multiply_karatsuba(number_first_part_right, number_second_part_right, false);
+        product_third = LongInt::_multiply_karatsuba(LongInt::_zeroes_leading_remove(number_first_part_left) + LongInt::_zeroes_leading_remove(number_first_part_right), LongInt::_zeroes_leading_remove(number_second_part_left) + LongInt::_zeroes_leading_remove(number_second_part_right), false);
+    }
     return LongInt::_shift_left(product_first, numbers_size) + LongInt::_shift_left(product_third - product_first - product_second, numbers_part_size) + product_second;
 }
 LongInt operator *(const LongInt& number_first, const LongInt& number_second) {
-    LongInt result = LongInt::_multiply_karatsuba(number_first, number_second);
+    LongInt result = LongInt::_multiply_karatsuba(number_first, number_second, true);
     result._natural = (number_first._natural == number_second._natural);
     return result;
 }
