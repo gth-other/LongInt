@@ -18,14 +18,14 @@ public:
     static bool even(LongInt number);
     static bool odd(LongInt number);
     static char sign(const LongInt& number);
-    static LongInt max(LongInt number_first, LongInt number_second);
-    static LongInt min(LongInt number_first, LongInt number_second);
     friend bool operator ==(LongInt number_first, LongInt number_second);
     friend bool operator !=(LongInt number_first, LongInt number_second);
     friend bool operator >(LongInt number_first, LongInt number_second);
     friend bool operator <(const LongInt& number_first, const LongInt& number_second);
     friend bool operator >=(const LongInt& number_first, const LongInt& number_second);
     friend bool operator <=(const LongInt& number_first, const LongInt& number_second);
+    static LongInt max(LongInt number_first, LongInt number_second);
+    static LongInt min(LongInt number_first, LongInt number_second);
     friend LongInt operator +(LongInt number_first, LongInt number_second);
     LongInt operator +=(LongInt number);
     LongInt operator ++();
