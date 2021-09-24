@@ -410,7 +410,6 @@ LongInt operator /(LongInt number_first, LongInt number_second) {
     LongInt result;
     result._natural = (number_first._natural == number_second._natural);
     LongInt number_first_part;
-    number_first_part._natural = true;
     number_first._natural = true;
     number_second._natural = true;
     if (number_second == 0) {
@@ -457,7 +456,6 @@ LongInt LongInt::operator /=(LongInt number) {
 }
 LongInt operator %(LongInt number_first, LongInt number_second) {
     LongInt number_first_part;
-    number_first_part._natural = true;
     number_first._natural = true;
     number_second._natural = true;
     if (number_second == 0) {
