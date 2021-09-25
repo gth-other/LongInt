@@ -45,6 +45,7 @@ public:
     static LongInt lcm(LongInt number_first, LongInt number_second);
     static LongInt isqrt(const LongInt& number);
     static LongInt icbrt(LongInt number);
+    static LongInt random(long long number_length);
 private:
     std::vector<int> _digits;
     bool _sign;

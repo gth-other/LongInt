@@ -30,7 +30,8 @@ int main() {
     std::cout << "14| Получение минимального из двух целых чисел." << std::endl;
     std::cout << "15| Извлечение целого квадратного корня из целого неотрицательного числа." << std::endl;
     std::cout << "16| Извлечение целого кубического корня из целого числа." << std::endl;
-    std::cout << "17| Выход." << std::endl;
+    std::cout << "17| Генерация натурального псевдослучайного числа натуральной длины." << std::endl;
+    std::cout << "18| Выход." << std::endl;
     for (; ;) {
         std::cout << std::endl;
         std::cout << std::endl;
@@ -227,10 +228,19 @@ int main() {
             std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
         }
         else if (action == "17") {
+            std::cout << "Введите число [оно должно помещаться в стандартные целочисленные типы]: ";
+            getline(std::cin, number_first_string);
+            time_start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            result_longint = LongInt::random(std::stoi(number_first_string));
+            std::cout << "Результат: " << result_longint << "." << std::endl;
+            time_end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            std::cout << "Затрачено времени [с учетом затрат на конвертацию типов и вывод]: " << (time_end - time_start) / 1000000000 << " секунд(а/ы)." << std::endl;
+        }
+        else if (action == "18") {
             break;
         }
         else {
-            std::cout << "Неизвестный номер команды. Введите число от 1 до 17." << std::endl;
+            std::cout << "Неизвестный номер команды. Введите число от 1 до 18." << std::endl;
         }
     }
     return 0;
