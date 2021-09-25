@@ -2,6 +2,7 @@
 #include <vector>
 #include <future>
 #include <random>
+#include <algorithm>
 #include "LongInt.hpp"
 
 
@@ -200,15 +201,7 @@ bool operator >(LongInt number_first, LongInt number_second) {
     if (number_first._digits.size() < number_second._digits.size()) {
         return false;
     }
-    for (long long numbers_position = 0; numbers_position < number_first._digits.size(); numbers_position = numbers_position + 1) {
-        if (number_first._digits[numbers_position] > number_second._digits[numbers_position]) {
-            return true;
-        }
-        if (number_first._digits[numbers_position] < number_second._digits[numbers_position]) {
-            return false;
-        }
-    }
-    return false;
+    return !(std::lexicographical_compare(number_first._digits.begin(), number_first._digits.end(), number_second._digits.begin(), number_second._digits.end()));
 }
 bool operator <(const LongInt& number_first, const LongInt& number_second) {
     if (number_first != number_second and !(number_first > number_second)) {
