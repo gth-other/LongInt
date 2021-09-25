@@ -398,14 +398,25 @@ LongInt LongInt::operator *=(const LongInt& number) {
     return *this = *this * number;
 }
 LongInt operator /(LongInt number_first, LongInt number_second) {
+    if (number_second == 0) {
+        throw "Fatal error. Division whole is impossible. Attempt to divide by zero.";
+    }
+    if (number_second._digits.size() == 1) {
+        int number_second_integer = number_second._digits[0];
+        int in_mind = 0;
+        long long composition;
+        for (long long i = 0; i < number_first._digits.size(); i = i + 1) {
+            composition = (long long)number_first._digits[i] + (long long)in_mind * (long long)LongInt::_base;
+            number_first._digits[i] = composition / number_second_integer;
+            in_mind = composition % number_second_integer;
+        }
+        return LongInt::_zeroes_leading_remove(number_first);
+    }
     LongInt result;
     result._sign = (number_first._sign == number_second._sign);
     LongInt number_first_part;
     number_first._sign = true;
     number_second._sign = true;
-    if (number_second == 0) {
-        throw "Fatal error. Division whole is impossible. Attempt to divide by zero.";
-    }
     if (number_first < number_second) {
         return 0;
     }
@@ -446,12 +457,23 @@ LongInt LongInt::operator /=(LongInt number) {
     return *this = *this / std::move(number);
 }
 LongInt operator %(LongInt number_first, LongInt number_second) {
-    LongInt number_first_part;
-    number_first._sign = true;
-    number_second._sign = true;
     if (number_second == 0) {
         throw "Fatal error. Division remainder calculation is impossible. Attempt to divide by zero.";
     }
+    if (number_second._digits.size() == 1) {
+        int number_second_integer = number_second._digits[0];
+        int in_mind = 0;
+        long long composition;
+        for (long long i = 0; i < number_first._digits.size(); i = i + 1) {
+            composition = (long long)number_first._digits[i] + (long long)in_mind * (long long)LongInt::_base;
+            number_first._digits[i] = composition / number_second_integer;
+            in_mind = composition % number_second_integer;
+        }
+        return in_mind;
+    }
+    LongInt number_first_part;
+    number_first._sign = true;
+    number_second._sign = true;
     if (number_first < number_second) {
         return number_first;
     }
