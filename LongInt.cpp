@@ -410,6 +410,7 @@ LongInt operator /(LongInt number_first, LongInt number_second) {
             number_first._digits[i] = composition / number_second_integer;
             in_mind = composition % number_second_integer;
         }
+        number_first._sign = (number_first._sign == number_second._sign);
         return LongInt::_zeroes_leading_remove(number_first);
     }
     LongInt result;
