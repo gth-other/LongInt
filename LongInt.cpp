@@ -159,6 +159,9 @@ bool LongInt::even(LongInt number) {
 bool LongInt::odd(LongInt number) {
     return !LongInt::even(std::move(number));
 }
+long long LongInt::size(LongInt number) {
+    return (((long long)number._digits.size() - (long long)1) * (long long)_base_length) + (long long)std::to_string(number._digits[0]).size();
+}
 bool operator ==(LongInt number_first, LongInt number_second) {
     if (number_first._sign != number_second._sign) {
         return false;

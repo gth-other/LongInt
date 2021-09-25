@@ -17,6 +17,7 @@ public:
     static LongInt abs(LongInt number_first);
     static bool even(LongInt number);
     static bool odd(LongInt number);
+    static long long size(LongInt number);
     friend bool operator ==(LongInt number_first, LongInt number_second);
     friend bool operator !=(LongInt number_first, LongInt number_second);
     friend bool operator >(LongInt number_first, LongInt number_second);
