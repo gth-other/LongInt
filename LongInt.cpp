@@ -588,7 +588,7 @@ LongInt LongInt::lcm(LongInt number_first, LongInt number_second) {
 }
 LongInt LongInt::isqrt(const LongInt& number) {
     if (!number._sign) {
-        throw "Fatal error. Isqrt calculation is impossible. Sqrt operation over negative numbers has no result.";
+        throw "Fatal error. Isqrt calculation is impossible. Isqrt operation over negative numbers has no result.";
     }
     if (number == 0) {
         return number;
