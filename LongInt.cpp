@@ -376,7 +376,7 @@ LongInt LongInt::_multiply_karatsuba(LongInt number_first, LongInt number_second
     LongInt product_first;
     LongInt product_second;
     LongInt product_third;
-    if (iteration_thirst) {
+    if (iteration_thirst and std::thread::hardware_concurrency() >= 3) {
         auto thread_first = std::async(LongInt::_multiply_karatsuba, number_first_part_left, number_second_part_left, false);
         auto thread_second = std::async(LongInt::_multiply_karatsuba, number_first_part_right, number_second_part_right, false);
         product_third = LongInt::_multiply_karatsuba(LongInt::_zeroes_leading_remove(number_first_part_left) + LongInt::_zeroes_leading_remove(number_first_part_right), LongInt::_zeroes_leading_remove(number_second_part_left) + LongInt::_zeroes_leading_remove(number_second_part_right), false);
