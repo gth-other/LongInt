@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 project(LongInt)
 set(CMAKE_CXX_STANDARD 14)
-add_executable(LongInt ../examples/main.cpp ../source/LongInt.hpp ../source/LongInt.cpp)
+add_executable(LongInt ../examples/main.cpp ../src/LongInt.hpp ../src/LongInt.cpp)
 add_definitions(-Werror)
 find_package(Threads REQUIRED)
 target_link_libraries(LongInt Threads::Threads)
