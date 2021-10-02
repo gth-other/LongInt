@@ -388,7 +388,7 @@ LongInt LongInt::_multiply_karatsuba(LongInt number_first, LongInt number_second
         product_second = LongInt::_multiply_karatsuba(number_first_part_right, number_second_part_right, false);
         product_third = LongInt::_multiply_karatsuba(LongInt::_zeroes_leading_remove(number_first_part_left) + LongInt::_zeroes_leading_remove(number_first_part_right), LongInt::_zeroes_leading_remove(number_second_part_left) + LongInt::_zeroes_leading_remove(number_second_part_right), false);
     }
-    return LongInt::_shift_left(product_first, numbers_size) + LongInt::_shift_left(product_third - product_first - product_second, numbers_part_size) + product_second;
+    return LongInt::_shift_left(product_first, numbers_size) + LongInt::_shift_left(product_third - (product_first + product_second), numbers_part_size) + product_second;
 }
 LongInt operator *(const LongInt& number_first, const LongInt& number_second) {
     LongInt result = LongInt::_multiply_karatsuba(number_first, number_second, true);
