@@ -383,6 +383,12 @@ LongInt LongInt::_multiply_karatsuba(LongInt number_first, LongInt number_second
         product_first = thread_first.get();
         product_second = thread_second.get();
     }
+    else if (iteration_thirst and std::thread::hardware_concurrency() == 2) {
+        auto thread_first = std::async(LongInt::_multiply_karatsuba, number_first_part_left, number_second_part_left, false);
+        product_second = LongInt::_multiply_karatsuba(number_first_part_right, number_second_part_right, false);
+        product_third = LongInt::_multiply_karatsuba(LongInt::_zeroes_leading_remove(number_first_part_left) + LongInt::_zeroes_leading_remove(number_first_part_right), LongInt::_zeroes_leading_remove(number_second_part_left) + LongInt::_zeroes_leading_remove(number_second_part_right), false);
+        product_first = thread_first.get();
+    }
     else {
         product_first = LongInt::_multiply_karatsuba(number_first_part_left, number_second_part_left, false);
         product_second = LongInt::_multiply_karatsuba(number_first_part_right, number_second_part_right, false);
