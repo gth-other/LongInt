@@ -17,10 +17,10 @@ std::vector<int> LongInt::_string_convert_to_vector(const std::string& string) {
     }
     for (long long string_position = string.size() - 1, result_position = result.size() - 1; string_position >= 0; string_position = string_position - _base_length, result_position = result_position - 1) {
         if ((string_position + 1) - _base_length <= 0) {
-            result[result_position] = std::stoi(string.substr(0, (string_position + 1)));
+            result[result_position] = std::stoi(string.substr(0, string_position + 1));
         }
         else {
-            result[result_position] = std::stoi(string.substr((string_position + 1) - _base_length, _base_length));
+            result[result_position] = std::stoi(string.substr(string_position - _base_length + 1, _base_length));
         }
     }
     return result;
@@ -34,7 +34,7 @@ LongInt::LongInt(std::string string) {
         throw "Fatal error. Type creation is impossible. String does not contain number.";
     }
     if (string[0] == '-') {
-        string.erase(string.begin() + 0);
+        string.erase(string.begin());
         _sign = false;
     }
     else {
@@ -46,14 +46,14 @@ LongInt::LongInt(std::string string) {
         }
     }
     while (string.size() != 1 and string[0] == '0') {
-        string.erase(string.begin() + 0);
+        string.erase(string.begin());
     }
     _digits = LongInt::_string_convert_to_vector(string);
 }
 LongInt::LongInt(signed int number) {
     std::string string = std::to_string(number);
     if (string[0] == '-') {
-        string.erase(string.begin() + 0);
+        string.erase(string.begin());
         _sign = false;
     }
     else {
@@ -68,7 +68,7 @@ LongInt::LongInt(unsigned int number) {
 LongInt::LongInt(signed long number) {
     std::string string = std::to_string(number);
     if (string[0] == '-') {
-        string.erase(string.begin() + 0);
+        string.erase(string.begin());
         _sign = false;
     }
     else {
@@ -83,7 +83,7 @@ LongInt::LongInt(unsigned long number) {
 LongInt::LongInt(signed long long number) {
     std::string string = std::to_string(number);
     if (string[0] == '-') {
-        string.erase(string.begin() + 0);
+        string.erase(string.begin());
         _sign = false;
     }
     else {
@@ -110,7 +110,7 @@ std::string LongInt::to_string(LongInt number) {
         tmp = std::to_string(number._digits[i]);
         tmp.reserve(_base_length - tmp.size());
         while (tmp.size() < _base_length) {
-            tmp.insert(tmp.begin() + 0, '0');
+            tmp.insert(tmp.begin(), '0');
         }
         result.append(tmp);
     }
@@ -131,13 +131,13 @@ LongInt LongInt::_zeroes_leading_remove(LongInt number) {
             break;
         }
     }
-    number._digits.erase(number._digits.begin() + 0, number._digits.begin() + zeroes_leading_border);
+    number._digits.erase(number._digits.begin(), number._digits.begin() + zeroes_leading_border);
     return number;
 }
 LongInt LongInt::_shift_right(LongInt number, long long shift_power) {
     number._digits.reserve(shift_power);
     for (long long i = 0; i < shift_power; i = i + 1) {
-        number._digits.insert(number._digits.begin() + 0, 0);
+        number._digits.insert(number._digits.begin(), 0);
     }
     return number;
 }
@@ -260,7 +260,7 @@ LongInt operator +(LongInt number_first, LongInt number_second) {
         number_first._digits[numbers_position] = sum % LongInt::_base;
     }
     if (in_mind != 0) {
-        number_first._digits.insert(number_first._digits.begin() + 0, in_mind);
+        number_first._digits.insert(number_first._digits.begin(), in_mind);
     }
     return number_first;
 }
@@ -342,16 +342,16 @@ LongInt LongInt::_multiply_karatsuba(LongInt number_first, LongInt number_second
             for (long long number_second_position = number_second._digits.size() - 1; number_second_position >= 0; number_second_position = number_second_position - 1) {
                 composition = (long long)number_first._digits[number_first_position] * (long long)number_second._digits[number_second_position] + result._digits[number_first_position + number_second_position + 1];
                 result._digits[number_first_position + number_second_position + 1] = composition % LongInt::_base;
-                result._digits[number_first_position + number_second_position + 1 - 1] = result._digits[number_first_position + number_second_position + 1 - 1] + (composition / LongInt::_base);
+                result._digits[number_first_position + number_second_position] = result._digits[number_first_position + number_second_position] + (composition / LongInt::_base);
             }
         }
         return LongInt::_zeroes_leading_remove(result);
     }
     if (number_first._digits.size() % 2 != 0) {
-        number_first._digits.insert(number_first._digits.begin() + 0, 0);
+        number_first._digits.insert(number_first._digits.begin(), 0);
     }
     if (number_second._digits.size() % 2 != 0) {
-        number_second._digits.insert(number_second._digits.begin() + 0, 0);
+        number_second._digits.insert(number_second._digits.begin(), 0);
     }
     if (number_first._digits.size() > number_second._digits.size()) {
         number_second = LongInt::_shift_right(number_second, number_first._digits.size() - number_second._digits.size());
@@ -369,10 +369,10 @@ LongInt LongInt::_multiply_karatsuba(LongInt number_first, LongInt number_second
     number_first_part_right._digits.resize(numbers_part_size);
     number_second_part_left._digits.resize(numbers_part_size);
     number_second_part_right._digits.resize(numbers_part_size);
-    std::copy(number_first._digits.begin() + 0, number_first._digits.begin() + numbers_part_size, number_first_part_left._digits.begin() + 0);
-    std::copy(number_second._digits.begin() + 0, number_second._digits.begin() + numbers_part_size, number_second_part_left._digits.begin() + 0);
-    std::copy(number_first._digits.begin() + numbers_part_size, number_first._digits.begin() + numbers_size, number_first_part_right._digits.begin() + 0);
-    std::copy(number_second._digits.begin() + numbers_part_size, number_second._digits.begin() + numbers_size, number_second_part_right._digits.begin() + 0);
+    std::copy(number_first._digits.begin(), number_first._digits.begin() + numbers_part_size, number_first_part_left._digits.begin());
+    std::copy(number_second._digits.begin(), number_second._digits.begin() + numbers_part_size, number_second_part_left._digits.begin());
+    std::copy(number_first._digits.begin() + numbers_part_size, number_first._digits.begin() + numbers_size, number_first_part_right._digits.begin());
+    std::copy(number_second._digits.begin() + numbers_part_size, number_second._digits.begin() + numbers_size, number_second_part_right._digits.begin());
     LongInt product_first;
     LongInt product_second;
     LongInt product_third;
