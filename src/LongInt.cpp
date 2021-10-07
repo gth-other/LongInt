@@ -31,7 +31,7 @@ LongInt::LongInt() {
 }
 LongInt::LongInt(std::string string) {
     if (string.empty() or (string.size() == 1 and string[0] == '-')) {
-        throw "Fatal error. Type creation is impossible. String does not contain number.";
+        throw "Fatal error. Cannot create type. String does not contain a number.";
     }
     if (string[0] == '-') {
         string.erase(string.begin());
@@ -42,7 +42,7 @@ LongInt::LongInt(std::string string) {
     }
     for (long long i = 0; i < string.size(); i = i + 1) {
         if (string[i] < 48 or string[i] > 57) {
-            throw "Fatal error. Type creation is impossible. String contain unknown characters.";
+            throw "Fatal error. Cannot create type. String contains unknown characters.";
         }
     }
     while (string.size() != 1 and string[0] == '0') {
@@ -406,7 +406,7 @@ LongInt LongInt::operator *=(const LongInt& number) {
 }
 LongInt operator /(LongInt number_first, LongInt number_second) {
     if (number_second == 0) {
-        throw "Fatal error. Division whole is impossible. Attempt to divide by zero.";
+        throw "Fatal error. Whole division is not possible. Zero is specified as the divisor.";
     }
     if (number_second._digits.size() == 1) {
         int number_second_integer = number_second._digits[0];
@@ -466,7 +466,7 @@ LongInt LongInt::operator /=(LongInt number) {
 }
 LongInt operator %(LongInt number_first, LongInt number_second) {
     if (number_second == 0) {
-        throw "Fatal error. Division remainder calculation is impossible. Attempt to divide by zero.";
+        throw "Fatal error. It is not possible to get the remainder of the division. Zero is specified as the divisor.";
     }
     if (number_second._digits.size() == 1) {
         int number_second_integer = number_second._digits[0];
@@ -522,10 +522,10 @@ LongInt LongInt::operator %=(LongInt number) {
 }
 LongInt LongInt::pow(LongInt number_first, LongInt number_second) {
     if (number_first == 0 and number_second == 0) {
-        throw "Fatal error. Pow calculation is impossible. It is impossible to raise zero to zero degree.";
+        throw "Fatal error. Exponentiation is not possible. Cannot raise zero to zero degree.";
     }
     if (number_second < 0) {
-        throw "Fatal error. Pow calculation is impossible. This class only support whole numbers, so erection to negative degree is impossible.";
+        throw "Fatal error. Exponentiation is not possible. Specified number is less than zero.";
     }
     LongInt result = 1;
     while (number_second != 0) {
@@ -555,7 +555,7 @@ LongInt LongInt::_factorial_tree(LongInt number_first, const LongInt& number_sec
 }
 LongInt LongInt::factorial(LongInt number) {
     if (number < 1) {
-        throw "Fatal error. Factorial calculation is impossible. Factorial is defined only for natural numbers.";
+        throw "Fatal error. The factorial calculation from the specified number is not possible. The specified number is less than or equal to zero.";
     }
     if (number == 1 or number == 2) {
         return number;
@@ -564,7 +564,7 @@ LongInt LongInt::factorial(LongInt number) {
 }
 LongInt LongInt::gcd(LongInt number_first, LongInt number_second) {
     if (number_first == 0 and number_second == 0) {
-        throw "Fatal error. Gcd calculation is impossible. Both numbers are zeros.";
+        throw "Fatal error. Counting the greatest common divisor is not possible. Both numbers are zero.";
     }
     number_first._sign = true;
     number_second._sign = true;
@@ -586,7 +586,7 @@ LongInt LongInt::gcd(LongInt number_first, LongInt number_second) {
 }
 LongInt LongInt::lcm(LongInt number_first, LongInt number_second) {
     if (number_first == 0 or number_second == 0) {
-        throw "Fatal error. Lcm calculation is impossible. One of the numbers is zero.";
+        throw "Fatal error. Calculating the least common multiple is not possible. One of the numbers is zero.";
     }
     number_first._sign = true;
     number_second._sign = true;
@@ -594,7 +594,7 @@ LongInt LongInt::lcm(LongInt number_first, LongInt number_second) {
 }
 LongInt LongInt::isqrt(const LongInt& number) {
     if (!number._sign) {
-        throw "Fatal error. Isqrt calculation is impossible. Isqrt operation over negative numbers has no result.";
+        throw "Fatal error. Calculating an integer square root is not possible. The square root of the specified number does not exist.";
     }
     if (number == 0) {
         return number;
@@ -640,7 +640,7 @@ LongInt LongInt::icbrt(LongInt number) {
 }
 LongInt LongInt::random(long long number_length) {
     if (number_length < 1) {
-        throw "Fatal error. Random number generation is impossible. Number length must be natural.";
+        throw "Fatal error. Random number generation is not possible. Specified length is less than or equal to zero.";
     }
     LongInt result;
     result._digits.resize(0);
