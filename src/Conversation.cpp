@@ -27,7 +27,7 @@ LongInt::LongInt(std::string string) {
     if (string.empty() or (string.size() == 1 and string[0] == '-')) {
         throw "Fatal error. Cannot create type. String does not contain a number.";
     }
-    if (string[0] == '-') {
+    if (string.front() == '-') {
         string.erase(string.begin());
         _sign = false;
     }
@@ -39,14 +39,14 @@ LongInt::LongInt(std::string string) {
             throw "Fatal error. Cannot create type. String contains unknown characters.";
         }
     }
-    while (string.size() != 1 and string[0] == '0') {
+    while (string.size() != 1 and string.front() == '0') {
         string.erase(string.begin());
     }
     _digits = LongInt::_string_convert_to_vector(string);
 }
 LongInt::LongInt(signed int number) {
     std::string string = std::to_string(number);
-    if (string[0] == '-') {
+    if (string.front() == '-') {
         string.erase(string.begin());
         _sign = false;
     }
@@ -61,7 +61,7 @@ LongInt::LongInt(unsigned int number) {
 }
 LongInt::LongInt(signed long number) {
     std::string string = std::to_string(number);
-    if (string[0] == '-') {
+    if (string.front() == '-') {
         string.erase(string.begin());
         _sign = false;
     }
@@ -76,7 +76,7 @@ LongInt::LongInt(unsigned long number) {
 }
 LongInt::LongInt(signed long long number) {
     std::string string = std::to_string(number);
-    if (string[0] == '-') {
+    if (string.front() == '-') {
         string.erase(string.begin());
         _sign = false;
     }
@@ -90,7 +90,7 @@ LongInt::LongInt(unsigned long long number) {
     _digits = LongInt::_string_convert_to_vector(std::to_string(number));
 }
 std::string LongInt::to_string(LongInt number) {
-    if (number._digits.size() == 1 and number._digits[0] == 0) {
+    if (number._digits.size() == 1 and number._digits.front() == 0) {
         return "0";
     }
     std::string result;

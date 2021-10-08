@@ -6,7 +6,7 @@ LongInt operator /(LongInt number_first, LongInt number_second) {
         throw "Fatal error. Whole division is not possible. Zero is specified as the divisor.";
     }
     if (number_second._digits.size() == 1) {
-        int number_second_integer = number_second._digits[0];
+        int number_second_integer = number_second._digits.front();
         int in_mind = 0;
         long long composition;
         for (long long i = 0; i < number_first._digits.size(); i = i + 1) {
@@ -66,7 +66,7 @@ LongInt operator %(LongInt number_first, LongInt number_second) {
         throw "Fatal error. It is not possible to get the remainder of the division. Zero is specified as the divisor.";
     }
     if (number_second._digits.size() == 1) {
-        int number_second_integer = number_second._digits[0];
+        int number_second_integer = number_second._digits.front();
         int in_mind = 0;
         long long composition;
         for (long long i = 0; i < number_first._digits.size(); i = i + 1) {

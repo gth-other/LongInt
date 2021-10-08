@@ -31,7 +31,7 @@ LongInt LongInt::abs(LongInt number_first) {
     return number_first;
 }
 bool LongInt::even(LongInt number) {
-    if (number._digits[number._digits.size() - 1] % 2 == 0) {
+    if (number._digits.back() % 2 == 0) {
         return true;
     }
     return false;
@@ -40,7 +40,7 @@ bool LongInt::odd(LongInt number) {
     return !LongInt::even(std::move(number));
 }
 long long LongInt::size(LongInt number) {
-    return (((long long)number._digits.size() - (long long)1) * (long long)_base_length) + (long long)std::to_string(number._digits[0]).size();
+    return (((long long)number._digits.size() - (long long)1) * (long long)_base_length) + (long long)std::to_string(number._digits.front()).size();
 }
 LongInt LongInt::max(LongInt number_first, LongInt number_second) {
     if (number_first > number_second) {
