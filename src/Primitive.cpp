@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "LongInt.hpp"
 
 
@@ -9,14 +10,15 @@ LongInt LongInt::_zeroes_leading_remove(LongInt number) {
             break;
         }
     }
-    number._digits.erase(number._digits.begin(), number._digits.begin() + zeroes_leading_border);
+    std::reverse(number._digits.begin(), number._digits.end());
+    number._digits.resize(number._digits.size() - zeroes_leading_border);
+    std::reverse(number._digits.begin(), number._digits.end());
     return number;
 }
 LongInt LongInt::_shift_right(LongInt number, long long shift_power) {
-    number._digits.reserve(shift_power);
-    for (long long i = 0; i < shift_power; i = i + 1) {
-        number._digits.insert(number._digits.begin(), 0);
-    }
+    std::reverse(number._digits.begin(), number._digits.end());
+    number._digits.resize(number._digits.size() + shift_power);
+    std::reverse(number._digits.begin(), number._digits.end());
     return number;
 }
 LongInt LongInt::_shift_left(LongInt number, long long shift_power) {

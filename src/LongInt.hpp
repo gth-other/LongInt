@@ -52,7 +52,7 @@ private:
     bool _sign;
     static const int _base = 1000000000;
     static const int _base_length = 9;
-    static const int _length_maximum_for_default_multiply = 256;
+    static const int _length_maximum_for_default_multiply = 128;
     static std::vector<int> _string_convert_to_vector(const std::string& string);
     static LongInt _zeroes_leading_remove(LongInt number);
     static LongInt _shift_right(LongInt number, long long shift_power);
